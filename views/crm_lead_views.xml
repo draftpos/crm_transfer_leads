@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add filter for Active Sales Reps with Leads -->
+    <record id="view_crm_case_leads_filter_inherit_active_reps" model="ir.ui.view">
+        <field name="name">crm.lead.search.inherit.active.reps</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='assigned_to_me']" position="after">
+                <filter string="Active Sales Reps Only" name="filter_active_sales_reps"
+                        domain="[('user_id.active', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Contextual Action for CRM Leads to Transfer Selected Leads -->
+    <record id="action_crm_lead_transfer_selected" model="ir.actions.act_window">
+        <field name="name">Transfer Selected Leads</field>
+        <field name="res_model">crm.lead.transfer.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="crm.model_crm_lead"/>
+        <field name="binding_view_types">list</field>
+        <field name="context">{
+            'default_transfer_mode': 'selected',
+            'default_lead_ids': active_ids,
+        }</field>
+    </record>
+</odoo>

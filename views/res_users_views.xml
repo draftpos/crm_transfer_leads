@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- User Form View Extension -->
+    <record id="view_users_form_inherit_crm_transfer" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.crm.transfer</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_open_transfer_wizard"
+                        string="Transfer Leads &amp; Offboard"
+                        type="object"
+                        class="btn-warning"
+                        invisible="crm_lead_count == 0"/>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="action_open_transfer_wizard"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-exchange"
+                        invisible="crm_lead_count == 0">
+                    <field name="crm_lead_count" widget="statinfo" string="CRM Leads"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- User Search View Extension -->
+    <record id="view_users_search_inherit_active_leads" model="ir.ui.view">
+        <field name="name">res.users.search.inherit.active.leads</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='filter_no_share']" position="after">
+                <separator/>
+                <filter string="Active Reps (With Leads)"
+                        name="filter_has_active_leads"
+                        domain="[('has_active_leads', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

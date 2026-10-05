@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wizard Form View -->
+    <record id="view_crm_lead_transfer_wizard_form" model="ir.ui.view">
+        <field name="name">crm.lead.transfer.wizard.form</field>
+        <field name="model">crm.lead.transfer.wizard</field>
+        <field name="arch" type="xml">
+            <form string="CRM Lead Transfer &amp; User Offboarding">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Lead Transfer &amp; Reassignment Tool:</strong> Reassign CRM leads/opportunities from one salesperson to another cleanly with full chatter history and activity retention.
+                    </div>
+
+                    <group>
+                        <group string="Source (Current Owner)">
+                            <field name="source_user_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="lead_count" readonly="1" string="Leads Available"/>
+                        </group>
+                        <group string="Target (New Owner)">
+                            <field name="target_user_id" options="{'no_create': True, 'no_open': True}" required="1"/>
+                            <field name="transfer_mode" widget="radio"/>
+                        </group>
+                    </group>
+
+                    <group string="Transfer Options">
+                        <group>
+                            <field name="transfer_activities"/>
+                            <field name="transfer_customers"/>
+                        </group>
+                        <group>
+                            <field name="disable_source_user"/>
+                        </group>
+                    </group>
+
+                    <notebook invisible="transfer_mode != 'selected'">
+                        <page string="Select Specific Leads">
+                            <field name="lead_ids" domain="[('user_id', '=', source_user_id)]">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="stage_id"/>
+                                    <field name="expected_revenue"/>
+                                    <field name="create_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_transfer_leads" string="Transfer Leads Only" type="object" class="btn-primary"/>
+                    <button name="action_transfer_and_disable" string="Transfer Leads &amp; Disable User" type="object" class="btn-warning"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button name="action_execute_company_migration" string="Run Company-Wide Preset Migration" type="object" class="btn-outline-danger float-end" confirm="Are you sure you want to run the full company-wide sales-rep migration and disable Monica, Rosemary, and Munesu?"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_crm_lead_transfer_wizard" model="ir.actions.act_window">
+        <field name="name">Transfer Leads &amp; Disable User</field>
+        <field name="res_model">crm.lead.transfer.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menuitem under CRM > Configuration -->
+    <menuitem id="menu_crm_lead_transfer_wizard"
+              name="Transfer Leads &amp; Disable User"
+              parent="crm.crm_menu_root"
+              action="action_crm_lead_transfer_wizard"
+              sequence="90"/>
+</odoo>
