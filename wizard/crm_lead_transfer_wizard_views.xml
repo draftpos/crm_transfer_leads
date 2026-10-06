@@ -35,13 +35,13 @@
                     <notebook invisible="transfer_mode != 'selected'">
                         <page string="Select Specific Leads">
                             <field name="lead_ids" domain="[('user_id', '=', source_user_id)]">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="partner_id"/>
                                     <field name="stage_id"/>
                                     <field name="expected_revenue"/>
                                     <field name="create_date"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
