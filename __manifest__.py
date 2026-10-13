@@ -13,7 +13,8 @@ This module provides advanced tools for managing CRM sales representative owners
 - Dynamic filtering to show only active salespersons who currently have leads.
 - Full audit chatter tracking without modifying historical creation dates, notes, or activities.
     """,
-    'author': 'Havano',
+    'author': 'DraftPOS / Havano Solutions',
+    'website': 'https://draftpos.com',
     'category': 'Sales/CRM',
     'depends': ['crm', 'mail'],
     'data': [
@@ -22,6 +23,7 @@ This module provides advanced tools for managing CRM sales representative owners
         'views/crm_lead_views.xml',
         'views/res_users_views.xml',
     ],
+    'images': ['static/description/icon.png'],
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
